@@ -1,0 +1,22 @@
+{
+  "name": "cypress-serverest",
+  "version": "1.0.0",
+  "description": "Testes automatizados com Cypress para o Serverest",
+  "scripts": {
+    "cy:open": "cypress open",
+    "cy:run": "cypress run",
+    "test:e2e": "cypress run --spec \"cypress/e2e/frontend/**/*.cy.js\"",
+    "test:api": "cypress run --spec \"cypress/e2e/api/**/*.cy.js\""
+  },
+  "keywords": [
+    "cypress",
+    "testing",
+    "automation",
+    "qa"
+  ],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "cypress": "^14.3.1"
+  }
+}
