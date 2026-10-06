@@ -13,12 +13,12 @@ JavaScript automation for the [ServeRest frontend](https://front.serverest.dev/)
 
 ## Run
 
-With Node.js and npm installed:
+With Node.js and npm cied:
 
 ```sh
 git clone https://github.com/brunobaccari/cypress-serverest.git
 cd cypress-serverest
-npm install
+npm ci
 npm run cy:open
 ```
 
@@ -28,6 +28,6 @@ npm run cy:open
 | `npm run test:e2e` | Frontend tests |
 | `npm run test:api` | API tests |
 
-This project uses Cypress 14. Review the login, user and product fixtures before running; their data must match the public demo environment. Do not put personal credentials in these files.
+Cypress 14 runs on Node 24. Each spec creates a unique admin account; login no longer relies on a shared demo user. Fixtures remain scenario templates. UI requests are awaited by route, and checks identify the exact created email or product. Teardown removes recorded IDs only; interrupted runs or API outages can prevent cleanup.
 
-Screenshots are written to `cypress/results`; video recording is enabled in the configuration. The original implementation is preserved, including fixed waits in some scenarios. Tests were not rerun as part of this documentation review.
+API reports record method, path and status without tokens, passwords or response bodies. Actions runs API and frontend separately, publishes their summaries, and uploads JUnit, JSON and videos as artifacts. Generated outputs are ignored by Git. This suite covers the public demo, not production access control or performance.

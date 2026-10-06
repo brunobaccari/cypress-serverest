@@ -18,7 +18,7 @@ Com Node.js e npm instalados:
 ```sh
 git clone https://github.com/brunobaccari/cypress-serverest.git
 cd cypress-serverest
-npm install
+npm ci
 npm run cy:open
 ```
 
@@ -28,6 +28,6 @@ npm run cy:open
 | `npm run test:e2e` | Testes de frontend |
 | `npm run test:api` | Testes de API |
 
-O projeto usa Cypress 14. Revise as fixtures de login, usuário e produto antes de executar; os dados precisam corresponder ao ambiente público de demonstração. Não coloque credenciais pessoais nesses arquivos.
+Cypress 14 executa com Node 24. Cada spec cria uma conta admin exclusiva; o login não depende mais de um usuário compartilhado. Fixtures permanecem como modelos dos cenários. Requisições da interface são aguardadas por rota, e as validações identificam o email ou produto criado. O teardown remove apenas IDs registrados; interrupções ou indisponibilidade da API podem impedir a limpeza.
 
-Screenshots são gravados em `cypress/results`; a gravação de vídeo está habilitada na configuração. O projeto mantém a implementação original, incluindo esperas fixas em alguns cenários. Os testes não foram reexecutados nesta revisão documental.
+Relatórios de API registram método, rota e status, sem tokens, senhas ou corpos de resposta. O Actions executa API e frontend separadamente, publica summaries e envia JUnit, JSON e vídeos como artifacts. Os outputs são ignorados pelo Git. A cobertura é do ambiente público de demonstração, sem validar autorização em produção ou desempenho.
