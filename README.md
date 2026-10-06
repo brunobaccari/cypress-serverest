@@ -1,47 +1,33 @@
-# SERVEREST - TESTES AUTOMATIZADOS
+# Cypress · Testes de frontend e API
 
-Este projeto contém testes automatizados para a aplicação ServeRest, utilizando Cypress para testes E2E e de API.
+[English version](README.en.md)
 
-## ✅ Pré-requisitos
-- **Node.js**: 18.x ou superior
-- **Gerenciador de pacotes**: npm
+Automação em JavaScript para o [frontend do ServeRest](https://front.serverest.dev/) e sua [API](https://serverest.dev/).
 
-## 📁 Estrutura do Projeto
-```text
-- cypress:
-  - e2e:
-    - frontend:
-      - login.cy.js
-      - produtos.cy.js
-      - usuarios.cy.js
-    - api:
-      - login.api.cy.js
-      - produtos.api.cy.js
-      - usuarios.api.cy.js
-  - fixtures:
-    - login.json
-    - produto.json
-    - usuario.json
-  - support:
-    - commands.js
-    - e2e.js
-```
+## Organização
 
-## ⚙️ Instalação
-- Clone o repositório
-```bash
+- `cypress/e2e/frontend`: login, usuários e produtos pela interface.
+- `cypress/e2e/api`: autenticação e operações de usuários e produtos.
+- `cypress/fixtures`: dados usados pelos cenários.
+- `cypress/support`: comandos compartilhados e configuração de suporte.
+
+## Executar
+
+Com Node.js e npm instalados:
+
+```sh
 git clone https://github.com/brunobaccari/cypress-serverest.git
-```
-Instale as dependências com o Gerenciador de pacotes
-```bash
-- npm install
+cd cypress-serverest
+npm install
+npm run cy:open
 ```
 
-## 📦 Dependências
-- `cypress`: ^14.3.1
+| Comando | Execução |
+| --- | --- |
+| `npm run cy:run` | Todos os testes |
+| `npm run test:e2e` | Testes de frontend |
+| `npm run test:api` | Testes de API |
 
-## 🧪 Scripts
-- `cypress:open`: `npm run cy:open`
-- `cypress:run`: `npm run cy:run`
-- `test:frontend`: `npm run test:e2e`
-- `test:api`: `npm run test:api`
+O projeto usa Cypress 14. Revise as fixtures de login, usuário e produto antes de executar; os dados precisam corresponder ao ambiente público de demonstração. Não coloque credenciais pessoais nesses arquivos.
+
+Screenshots são gravados em `cypress/results`; a gravação de vídeo está habilitada na configuração. O projeto mantém a implementação original, incluindo esperas fixas em alguns cenários. Os testes não foram reexecutados nesta revisão documental.
