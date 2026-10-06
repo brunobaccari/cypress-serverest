@@ -1,0 +1,99 @@
+name: Testes E2E e API — Cypress
+
+on:
+  push:
+    branches: [ "main", "master" ]
+  pull_request:
+    branches: [ "main", "master" ]
+  workflow_dispatch:
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+
+permissions:
+  contents: read
+
+jobs:
+  cypress-run:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+
+    steps:
+      - name: Baixar código fonte
+        # actions/checkout@v6
+        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd
+
+      - name: Verificar arquivos versionados
+        shell: bash
+        run: |
+          tracked=$(git ls-files --cached --ignored --exclude-standard)
+          if [ -n "$tracked" ]; then
+            printf 'Arquivos ignorados versionados:\n%s\n' "$tracked"
+            exit 1
+          fi
+      - name: Configurar Node.js
+        # actions/setup-node@v6
+        uses: actions/setup-node@48b55a011bda9f5d6aeb4c2d9c7362e8dae4041e
+        with:
+          node-version: 24
+          cache: 'npm'
+
+      - name: Instalar dependências
+        run: npm ci
+
+      - name: Executar testes de API
+        # cypress-io/github-action@v7
+        uses: cypress-io/github-action@dca986193e4336cb32820819b07e9ecacacaaaf6
+        with:
+          spec: cypress/e2e/api/**
+          install: false
+          summary-title: 'Testes de API'
+          publish-summary: true
+        env:
+          CYPRESS_VIDEOS_FOLDER: cypress/videos/api
+          CYPRESS_SCREENSHOTS_FOLDER: cypress/screenshots/api
+
+      - name: Executar testes E2E Frontend
+        # cypress-io/github-action@v7
+        uses: cypress-io/github-action@dca986193e4336cb32820819b07e9ecacacaaaf6
+        with:
+          spec: cypress/e2e/frontend/**
+          install: false
+          summary-title: 'Testes E2E Frontend'
+          publish-summary: true
+        env:
+          CYPRESS_VIDEOS_FOLDER: cypress/videos/frontend
+          CYPRESS_SCREENSHOTS_FOLDER: cypress/screenshots/frontend
+
+      - name: Salvar resultados JUnit
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a
+        if: always()
+        with:
+          name: cypress-results
+          path: |
+            results/*.xml
+            cypress/results/
+          retention-days: 14
+          if-no-files-found: warn
+
+      - name: Salvar screenshots em caso de falha
+        # actions/upload-artifact@v7
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a
+        if: failure()
+        with:
+          name: cypress-screenshots
+          path: cypress/screenshots
+          retention-days: 14
+          if-no-files-found: ignore
+
+      - name: Salvar vídeos de execução
+        # actions/upload-artifact@v7
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a
+        if: always()
+        with:
+          name: cypress-videos
+          path: cypress/videos
+          retention-days: 14
+          if-no-files-found: ignore

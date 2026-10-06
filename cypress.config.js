@@ -2,6 +2,8 @@ const { defineConfig } = require('cypress')
 const fs = require('fs')
 
 module.exports = defineConfig({
+  reporter: 'junit',
+  reporterOptions: { mochaFile: 'results/junit-[hash].xml' },
   e2e: {
     baseUrl: process.env.BASE_URL || 'https://front.serverest.dev',
     env: { apiUrl: process.env.API_URL || 'https://serverest.dev' },
