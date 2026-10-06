@@ -3,7 +3,8 @@ const fs = require('fs')
 
 module.exports = defineConfig({
   e2e: {
-    baseUrl: 'https://front.serverest.dev',
+    baseUrl: process.env.BASE_URL || 'https://front.serverest.dev',
+    env: { apiUrl: process.env.API_URL || 'https://serverest.dev' },
     setupNodeEvents(on, config) {
       on('task', {
         mkdir(dirPath) {
@@ -25,7 +26,6 @@ module.exports = defineConfig({
     screenshotsFolder: 'cypress/results',
     video: true,
     videoCompression: 32,
-    videoRecording: true,
     viewportWidth: 1280,
     viewportHeight: 720,
     defaultCommandTimeout: 10000,

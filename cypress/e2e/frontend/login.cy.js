@@ -4,28 +4,32 @@ describe('Login', { testIsolation: true }, () => {
   })
 
   it('deve fazer login com sucesso', () => {
-    cy.fixture('login').then(loginData => {
+    cy.then(() => {
+      const { email, password } = Cypress.env('account')
+      const loginData = { email, password }
       cy.visit('/login')
       cy.screenshot('login-page')
       
       cy.get('input[name="email"]').type(loginData.email)
-      cy.get('input[name="password"]').type(loginData.password)
+      cy.get('input[name="password"]').type(loginData.password, { log: false })
       cy.screenshot('login-filled')
       
       cy.get('button[type="submit"]').click()
 
       cy.url().should('include', '/admin/home')
       cy.get('img.imagem').should('be.visible')
-      cy.contains('h1', loginData.expectedTitle).should('be.visible')
+      cy.contains('h1', 'Bem Vindo').should('be.visible')
       cy.screenshot('login-success')
     })
   })
 
   it('deve fazer logout com sucesso', () => {
-    cy.fixture('login').then(loginData => {
+    cy.then(() => {
+      const { email, password } = Cypress.env('account')
+      const loginData = { email, password }
       cy.visit('/login')
       cy.get('input[name="email"]').type(loginData.email)
-      cy.get('input[name="password"]').type(loginData.password)
+      cy.get('input[name="password"]').type(loginData.password, { log: false })
       cy.get('button[type="submit"]').click()
 
       cy.url().should('include', '/admin/home')

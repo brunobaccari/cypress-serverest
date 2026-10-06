@@ -6,12 +6,12 @@ describe('Produtos API', { testIsolation: true }, () => {
   it('deve obter lista de produtos com token válido', () => {
     cy.request({
       method: 'GET',
-      url: 'https://serverest.dev/produtos',
+      url: `${Cypress.env('apiUrl')}/produtos`,
       headers: { Authorization: authToken }
     }).then(response => {
       expect(response.status).to.eq(200)
       expect(response.body.produtos).to.be.an('array')
-      cy.documentApiTest('listar-produtos', { method: 'GET', url: 'https://serverest.dev/produtos', headers: { Authorization: authToken } }, response)
+      cy.documentApiTest('listar-produtos', { method: 'GET', url: `${Cypress.env('apiUrl')}/produtos`, headers: { Authorization: authToken } }, response)
     })
   })
 
@@ -21,22 +21,22 @@ describe('Produtos API', { testIsolation: true }, () => {
 
       cy.request({
         method: 'POST',
-        url: 'https://serverest.dev/produtos',
+        url: `${Cypress.env('apiUrl')}/produtos`,
         headers: { Authorization: authToken },
         body: productData
       }).then(createResponse => {
         expect(createResponse.status).to.eq(201)
         const productId = createResponse.body._id
-        cy.documentApiTest('criar-produto', { method: 'POST', url: 'https://serverest.dev/produtos', headers: { Authorization: authToken }, body: productData }, createResponse)
+        cy.documentApiTest('criar-produto', { method: 'POST', url: `${Cypress.env('apiUrl')}/produtos`, headers: { Authorization: authToken }, body: productData }, createResponse)
 
         cy.request({
           method: 'DELETE',
-          url: `https://serverest.dev/produtos/${productId}`,
+          url: `${Cypress.env('apiUrl')}/produtos/${productId}`,
           headers: { Authorization: authToken }
         }).then(deleteResponse => {
           expect(deleteResponse.status).to.eq(200)
           expect(deleteResponse.body.message).to.eq('Registro excluído com sucesso')
-          cy.documentApiTest('excluir-produto', { method: 'DELETE', url: `https://serverest.dev/produtos/${productId}`, headers: { Authorization: authToken } }, deleteResponse)
+          cy.documentApiTest('excluir-produto', { method: 'DELETE', url: `${Cypress.env('apiUrl')}/produtos/${productId}`, headers: { Authorization: authToken } }, deleteResponse)
         })
       })
     })

@@ -2,8 +2,8 @@
 
 Cypress.Commands.add('login', () => {
   cy.visit('/login')
-  cy.get('input[name="email"]').type('fulano@qa.com')
-  cy.get('input[name="password"]').type('teste')
+  cy.get('input[name="email"]').type(Cypress.env('account').email)
+  cy.get('input[name="password"]').type(Cypress.env('account').password, { log: false })
   cy.get('button[type="submit"]').click()
   cy.url().should('include', '/admin/home')
 })
@@ -20,8 +20,8 @@ Cypress.Commands.add('preencherProduto', (productData) => {
 Cypress.Commands.add('preencherUsuario', (userData) => {
   cy.get('[data-testid="nome"]').type(userData.nome)
   cy.get('[data-testid="email"]').type(userData.email)
-  cy.get('[data-testid="password"]').type(userData.password)
-  if (userData.isAdmin) {
+  cy.get('[data-testid="password"]').type(userData.password, { log: false })
+  if (userData.administrador === 'true') {
     cy.get('[data-testid="checkbox"]').check()
   }
 })
