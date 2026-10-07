@@ -6,7 +6,9 @@
     "cy:open": "cypress open",
     "cy:run": "cypress run",
     "test:e2e": "cypress run --spec \"cypress/e2e/frontend/**/*.cy.js\"",
-    "test:api": "cypress run --spec \"cypress/e2e/api/**/*.cy.js\""
+    "test:api": "cypress run --spec \"cypress/e2e/api/**/*.cy.js\"",
+    "prepare": "husky",
+    "check:local": "git diff --cached --check && python scripts/summary.py --self-test"
   },
   "keywords": [
     "cypress",
@@ -17,7 +19,8 @@
   "author": "",
   "license": "ISC",
   "devDependencies": {
-    "cypress": "^14.3.1"
+    "cypress": "^14.3.1",
+    "husky": "9.1.7"
   },
   "engines": {
     "node": ">=24"
