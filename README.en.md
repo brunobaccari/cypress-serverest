@@ -31,3 +31,7 @@ npm run cy:open
 Cypress 14 runs on Node 24. Each spec creates a unique admin account; login no longer relies on a shared demo user. Fixtures remain scenario templates. UI requests are awaited by route, and checks identify the exact created email or product. Teardown removes recorded IDs only; interrupted runs or API outages can prevent cleanup.
 
 API reports record method, path and status without tokens, passwords or response bodies. Actions runs API and frontend separately, publishes their summaries, and uploads JUnit, JSON and videos as artifacts. Generated outputs are ignored by Git. This suite covers the public demo, not production access control or performance.
+
+The Actions summary lists every scenario, duration, totals and blocking reason. The gate requires the count configured in the workflow, with no failures or skips; missing or invalid JUnit fails the gate. The summary is also included in the artifact.
+
+Final-state screenshots are also captured for passing UI tests and stored in artifacts, outside Git.

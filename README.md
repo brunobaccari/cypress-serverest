@@ -31,3 +31,7 @@ npm run cy:open
 Cypress 14 executa com Node 24. Cada spec cria uma conta admin exclusiva; o login não depende mais de um usuário compartilhado. Fixtures permanecem como modelos dos cenários. Requisições da interface são aguardadas por rota, e as validações identificam o email ou produto criado. O teardown remove apenas IDs registrados; interrupções ou indisponibilidade da API podem impedir a limpeza.
 
 Relatórios de API registram método, rota e status, sem tokens, senhas ou corpos de resposta. O Actions executa API e frontend separadamente, publica summaries e envia JUnit, JSON e vídeos como artifacts. Os outputs são ignorados pelo Git. A cobertura é do ambiente público de demonstração, sem validar autorização em produção ou desempenho.
+
+O summary do Actions lista cada cenário, duração, totais e motivo de bloqueio. O gate exige a quantidade prevista no workflow, sem falhas ou skips; JUnit ausente ou inválido reprova. O resumo também acompanha o artifact.
+
+Screenshots do estado final também são capturados nos testes de interface aprovados e ficam nos artifacts, fora do Git.
